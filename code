@@ -1,1 +1,43 @@
-code snippets
+#define BLYNK_PRINT Serial
+#include <ESP8266WiFi.h>
+#include <BlynkSimpleEsp8266.h>
+#define BLYNK_TEMPLATE_ID "TMPL3ThQmlxRx"
+#define BLYNK_TEMPLATE_NAME "PRO"
+#define BLYNK_AUTH_TOKEN "hFULzEx_Cg-U84WLDGTWSEBnevfZCmY5"
+charauth[] = "hFULzEx_Cg-U84WLDGTWSEBnevfZCmY5";
+charssid[] = "CEMS_New";
+char pass[] = "SKILLS@CEMS";
+intir=D1;
+intldr=D2;
+int led=D4;
+int a;
+void setup()
+{
+Serial.begin(9600);
+pinMode(ir,INPUT);
+pinMode(ldr,INPUT);
+pinMode(led,OUTPUT);
+Blynk.begin(auth, ssid, pass, "blynk.cloud", 80);
+}
+void loop()
+{
+Blynk.run();
+int a=digitalRead(ldr);
+int b=digitalRead(ir);
+delay(500);
+Serial.println(a);
+Serial.println(b);
+Blynk.virtualWrite(V0, a);
+Blynk.virtualWrite(V1, b);
+if((a==1)&& (b==0))
+ {
+Blynk.virtualWrite(V2, "NAD JUNCTION LIGHTS ARE ON"); 
+digitalWrite(led,HIGH);
+ }
+else
+ {
+delay(2000);
+Blynk.virtualWrite(V2, "NAD JUNCTION LIGHTS ARE OFF"); 
+digitalWrite(led,LOW);
+ }
+}
